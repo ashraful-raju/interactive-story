@@ -22,6 +22,7 @@ class StoryFactory extends Factory
             'slug' => fake()->slug(),
             'description' => fake()->paragraph(),
             'status' => StatusEnum::PUBLISHED,
+            'cover' => fake()->imageUrl()
         ];
     }
 }

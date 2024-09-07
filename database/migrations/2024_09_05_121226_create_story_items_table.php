@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('story_id')->constrained()->cascadeOnDelete();
             $table->foreignId('parent_id')->nullable();
+            $table->string('name')->nullable();
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description')->nullable();

@@ -17,6 +17,7 @@ class StoryItemFactory extends Factory
     public function definition(): array
     {
         return [
+            'name' => 'Option: ' . fake()->sentence(2),
             'title' => fake()->sentence(),
             'slug' => fake()->slug(),
             'description' => fake()->paragraph(),

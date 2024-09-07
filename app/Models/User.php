@@ -32,6 +32,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $appends = ['avatar'];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -43,5 +45,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    function getAvatarAttribute()
+    {
+        $hash = md5($this->email);
+        return "https://www.gravatar.com/avatar/{$hash}";
     }
 }

@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Traits\Slugable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class StoryItem extends Model
 {
@@ -13,6 +15,7 @@ class StoryItem extends Model
     protected $fillable = [
         'story_id',
         'parent_id',
+        'name',
         'title',
         'slug',
         'description',
@@ -20,17 +23,24 @@ class StoryItem extends Model
         'media'
     ];
 
-    function story()
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['childrens'];
+
+    function story(): BelongsTo
     {
         return $this->belongsTo(Story::class);
     }
 
-    function childrens()
+    function childrens(): HasMany
     {
         return $this->hasMany(self::class, 'parent_id');
     }
 
-    function parent()
+    function parent(): BelongsTo
     {
         return $this->belongsTo(self::class, 'parent_id');
     }

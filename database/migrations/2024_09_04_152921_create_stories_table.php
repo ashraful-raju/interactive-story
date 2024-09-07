@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->string('status')->default(StatusEnum::DRAFT);
-            $table->foreignId('begin_story')->nullable();
             $table->string('cover')->nullable();
             $table->timestamps();
         });

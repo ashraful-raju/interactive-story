@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
 use App\Traits\Slugable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,18 +17,22 @@ class Story extends Model
         'slug',
         'description',
         'status',
-        'begin_story',
         'cover'
     ];
+
+    function scopePublished($query)
+    {
+        $query->where('status', StatusEnum::PUBLISHED);
+    }
 
     function author()
     {
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    function startStory()
+    function startingItems()
     {
-        return $this->hasOne(StoryItem::class, 'begin_story');
+        return $this->storyItems()->whereNull('parent_id');
     }
 
     function storyItems()
