@@ -60,7 +60,9 @@ export function WebHeader() {
                                         </Dropdown.Content>
                                     </Dropdown>
                                 ) : (
-                                    <PrimaryButton>Login</PrimaryButton>
+                                    <Link href={route("login")}>
+                                        <PrimaryButton>Login</PrimaryButton>
+                                    </Link>
                                 )}
                             </div>
                         </div>

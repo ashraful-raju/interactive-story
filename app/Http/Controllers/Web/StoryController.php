@@ -12,7 +12,7 @@ class StoryController extends Controller
 {
     function index()
     {
-        $stories = Story::published()->get();
+        $stories = Story::published()->latest()->get();
 
         return Inertia::render('Web/Index', [
             'stories' => $stories

@@ -6,6 +6,8 @@ use App\Enums\StatusEnum;
 use App\Traits\Slugable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class Story extends Model
 {
@@ -20,9 +22,23 @@ class Story extends Model
         'cover'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->author_id = Auth::id();
+        });
+    }
+
     function scopePublished($query)
     {
         $query->where('status', StatusEnum::PUBLISHED);
+    }
+
+    function scopeAuthor($query)
+    {
+        $query->where('author_id', Auth::id());
     }
 
     function author()
@@ -38,5 +54,13 @@ class Story extends Model
     function storyItems()
     {
         return $this->hasMany(StoryItem::class);
+    }
+
+    function getCoverAttribute($value)
+    {
+        if (str($value)->startsWith('http')) {
+            return $value;
+        }
+        return Storage::url($value);
     }
 }

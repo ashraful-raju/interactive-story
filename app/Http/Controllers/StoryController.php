@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
 use App\Models\Story;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class StoryController extends Controller
 {
@@ -12,7 +14,9 @@ class StoryController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Story/Index', [
+            'stories' => Story::query()->author()->latest()->get()
+        ]);
     }
 
     /**
@@ -20,7 +24,9 @@ class StoryController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Story/Create', [
+            'story' => new Story(['status' => StatusEnum::DRAFT])
+        ]);
     }
 
     /**
@@ -28,7 +34,21 @@ class StoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => ['required', 'string'],
+            'slug' => ['required', 'string', 'unique:stories'],
+            'description' => ['string', 'nullable'],
+            'status' => ['string', 'in:draft,published'],
+            'cover' => ['image', 'nullable']
+        ]);
+
+        $data['cover'] = $request->hasFile('cover') ?
+            $request->file('cover')->storePublicly() :
+            null;
+
+        $story = Story::create($data);
+
+        return redirect()->route('stories.index');
     }
 
     /**
@@ -36,7 +56,10 @@ class StoryController extends Controller
      */
     public function show(Story $story)
     {
-        //
+        $story->load(['startingItems', 'author']);
+        return Inertia::render('Story/View', [
+            'story' => $story
+        ]);
     }
 
     /**
@@ -44,7 +67,9 @@ class StoryController extends Controller
      */
     public function edit(Story $story)
     {
-        //
+        return Inertia::render('Story/Create', [
+            'story' => $story
+        ]);
     }
 
     /**
@@ -52,7 +77,21 @@ class StoryController extends Controller
      */
     public function update(Request $request, Story $story)
     {
-        //
+        $data = $request->validate([
+            'title' => ['required', 'string'],
+            'slug' => ['required', 'string', "unique:stories,slug,{$story->id}"],
+            'description' => ['string', 'nullable'],
+            'status' => ['string', 'in:draft,published'],
+            'cover' => ['image', 'nullable']
+        ]);
+
+        $data['cover'] = $request->hasFile('cover') ?
+            $request->file('cover')->storePublicly() :
+            $story->cover;
+
+        $story->update($data);
+
+        return back()->with('message', 'Updated');
     }
 
     /**
@@ -60,6 +99,8 @@ class StoryController extends Controller
      */
     public function destroy(Story $story)
     {
-        //
+        $story->delete();
+
+        return back()->with('message', 'Story deleted!');
     }
 }
