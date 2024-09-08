@@ -20,8 +20,12 @@ Open your terminal in computer run these commands sequencially.
 -   `php artisan storage:link`
 -   `php artisan serve`
 
-### Models
+### Screenshots
 
-`User` - for authorization
-`Story` - Store the main story details
-`StoryItem` - Story chapter, can be recursive.
+![Screenshot](./screenshots/login.png)
+![Screenshot](./screenshots/full-page.png)
+![Screenshot](./screenshots/dashboard.png)
+![Screenshot](./screenshots/stories.png)
+![Screenshot](./screenshots/inside-story.png)
+![Screenshot](./screenshots/story-option-A.png)
+![Screenshot](./screenshots/story-option-B.png)
