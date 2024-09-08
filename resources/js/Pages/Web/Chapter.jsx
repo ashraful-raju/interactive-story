@@ -12,8 +12,8 @@ export default function Chapter({ auth, story, item }) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="fixed bottom-4 w-full flex justify-center items-end max-h-[36rem]">
-                        <div className="text-white bg-opacity-40 hover:bg-opacity-100 bg-slate-700 p-6 rounded-md max-w-2xl max-h-[65vh] transition-all duration-150 overflow-hidden overflow-y-auto">
+                    <div className="fixed bottom-4 w-full flex justify-center items-center max-h-[40rem]">
+                        <div className="text-white bg-opacity-40 hover:bg-opacity-100 bg-slate-700 p-6 rounded-md max-w-2xl max-h-[75vh] transition-all duration-150 overflow-hidden overflow-y-auto">
                             <h1 className="text-3xl mb-3">{item.title}</h1>
                             <p>{item.description}</p>
 

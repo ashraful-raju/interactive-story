@@ -3,27 +3,24 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { capitalize } from "@/utils";
 import { Head, Link } from "@inertiajs/react";
 
-export default function Stories({ auth, story }) {
-    const stories = story.starting_items;
+export default function Stories({ auth, story, story_item }) {
+    const items = story_item.childrens;
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <div className="space-y-2">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                        {story.title}
+                        {story_item.title}
                     </h2>
-                    <p className="text-sm italic">- {story.author.name}</p>
-                    <p className="text-sm text-gray-500">{story.description}</p>
-                    <p>
-                        <span className="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                            {capitalize(story.status)}
-                        </span>
+                    <p className="text-sm italic">{story_item.name}</p>
+                    <p className="text-sm text-gray-500">
+                        {story_item.description}
                     </p>
                 </div>
             }
         >
-            <Head title="Stories" />
+            <Head title="View Story Item" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -35,10 +32,10 @@ export default function Stories({ auth, story }) {
                                     <span>Options / Next Items</span>
                                     <Link
                                         className="whitespace-nowrap"
-                                        href={route(
-                                            "stories.items.create",
-                                            story.id
-                                        )}
+                                        href={route("stories.items.create", {
+                                            item: story_item.id,
+                                            story: story.id,
+                                        })}
                                     >
                                         <PrimaryButton>
                                             Create Item
@@ -52,10 +49,13 @@ export default function Stories({ auth, story }) {
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" className="px-6 py-3">
-                                        Name/Title
+                                        Title
                                     </th>
                                     <th scope="col" className="px-6 py-3">
                                         Created At
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        Parent
                                     </th>
                                     <th scope="col" className="px-6 py-3">
                                         <span className="sr-only">Action</span>
@@ -63,7 +63,7 @@ export default function Stories({ auth, story }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {stories.map((item) => (
+                                {items.map((item) => (
                                     <tr
                                         key={item.id}
                                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
@@ -74,14 +74,11 @@ export default function Stories({ auth, story }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "stories.items.show",
-                                                    {
-                                                        story: story.id,
-                                                        item: item.id,
-                                                    }
+                                                    "stories.show",
+                                                    item.id
                                                 )}
                                             >
-                                                {item.name} - {item.title}
+                                                {item.title}
                                             </Link>
                                         </th>
                                         <td className="px-6 py-4">
@@ -89,14 +86,21 @@ export default function Stories({ auth, story }) {
                                                 item.created_at
                                             ).toLocaleString()}
                                         </td>
+                                        <td className="px-6 py-4">
+                                            {item.parent ? (
+                                                <>
+                                                    {item.parent.name} -{" "}
+                                                    {item.parent.title}
+                                                </>
+                                            ) : (
+                                                "-"
+                                            )}
+                                        </td>
                                         <td className="px-6 py-4 text-right space-x-2">
                                             <Link
                                                 href={route(
-                                                    "stories.items.edit",
-                                                    {
-                                                        item: item.id,
-                                                        story: story.id,
-                                                    }
+                                                    "stories.edit",
+                                                    item.id
                                                 )}
                                                 className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                             >
@@ -104,11 +108,8 @@ export default function Stories({ auth, story }) {
                                             </Link>
                                             <Link
                                                 href={route(
-                                                    "stories.items.destroy",
-                                                    {
-                                                        item: item.id,
-                                                        story: story.id,
-                                                    }
+                                                    "stories.destroy",
+                                                    item.id
                                                 )}
                                                 method="DELETE"
                                                 onClick={(evt) =>

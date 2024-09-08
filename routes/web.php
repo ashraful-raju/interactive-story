@@ -12,7 +12,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::resource('stories', StoryController::class);
-    Route::resource('stories.items', StoryItemController::class);
+    Route::resource('stories.items', StoryItemController::class)->except([
+        'index',
+    ]);
 });
 
 Route::middleware('auth')->group(function () {
