@@ -1,3 +1,4 @@
+import { wordLimit } from "@/utils";
 import { Link } from "@inertiajs/react";
 
 export function Story({ item }) {
@@ -17,7 +18,7 @@ export function Story({ item }) {
                     </h5>
                 </Link>
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    {item.description}
+                    {wordLimit(item.description, 20)}
                 </p>
                 <Link
                     href={route("story.show", item.slug)}

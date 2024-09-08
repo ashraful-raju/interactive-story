@@ -5,7 +5,7 @@ export default function WebLayout({ children, bgImage = "" }) {
         <div className="min-h-screen">
             <WebHeader />
             <main
-                className="h-screen bg-slate-200 dark:bg-slate-700"
+                className="min-h-screen h-full bg-slate-200 dark:bg-slate-700"
                 style={{
                     backgroundImage: bgImage ? `url(${bgImage})` : null,
                     backgroundPosition: "center",

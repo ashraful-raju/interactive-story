@@ -14,3 +14,11 @@ export function capitalize(str) {
     }
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+export function wordLimit(str, len = 10) {
+    const words = str.split(" ");
+
+    const text = words.slice(0, len).join(" ");
+
+    return words.length > len ? `${text}...` : text;
+}

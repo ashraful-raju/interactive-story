@@ -27,7 +27,9 @@ class Story extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->author_id = Auth::id();
+            if (!$model->author_id) {
+                $model->author_id = Auth::id();
+            }
         });
     }
 

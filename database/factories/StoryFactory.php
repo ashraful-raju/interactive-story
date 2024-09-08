@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\StatusEnum;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,7 +23,8 @@ class StoryFactory extends Factory
             'slug' => fake()->slug(),
             'description' => fake()->paragraph(),
             'status' => StatusEnum::PUBLISHED,
-            'cover' => fake()->imageUrl()
+            'cover' => fake()->imageUrl(),
+            'author_id' => User::first()?->value('id')
         ];
     }
 }

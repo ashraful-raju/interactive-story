@@ -10,8 +10,8 @@ export function WebHeader() {
         },
     } = usePage();
     return (
-        <header className="fixed w-full top-0">
-            <nav className="bg-transparent pt-2">
+        <header className="fixed w-full bg-transparent top-0">
+            <nav className="bg-transparent">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
@@ -45,6 +45,11 @@ export function WebHeader() {
                                         </Dropdown.Trigger>
 
                                         <Dropdown.Content>
+                                            <Dropdown.Link
+                                                href={route("dashboard")}
+                                            >
+                                                Dashboard
+                                            </Dropdown.Link>
                                             <Dropdown.Link
                                                 href={route("profile.edit")}
                                             >
