@@ -2,6 +2,8 @@ import Dropdown from "../Dropdown";
 import { Link, usePage } from "@inertiajs/react";
 import ApplicationLogo from "../ApplicationLogo";
 import PrimaryButton from "../PrimaryButton";
+import Register from "../../../../vendor/laravel/breeze/stubs/inertia-react/resources/js/Pages/Auth/Register";
+import SecondaryButton from "../SecondaryButton";
 
 export function WebHeader() {
     const {
@@ -66,7 +68,9 @@ export function WebHeader() {
                                     </Dropdown>
                                 ) : (
                                     <Link href={route("login")}>
-                                        <PrimaryButton>Login</PrimaryButton>
+                                        <PrimaryButton>
+                                            Login | Register
+                                        </PrimaryButton>
                                     </Link>
                                 )}
                             </div>
